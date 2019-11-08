@@ -22,3 +22,6 @@ Development workflow:
     - Make a nice UI so when you click on the image it opens it up in a modal
 - Add in clustering UI so it looks pretty 
 - Add in a prettier base map (OPTIONAL)
+
+Slider from:
+https://codepen.io/glitchworker/pen/XVdKqj by https://codepen.io/glitchworker
