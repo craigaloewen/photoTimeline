@@ -36,8 +36,7 @@ class markerController {
     }
 
     populateMapWithMarkers() {
-
-        let addToMapFunc = function(inMarker) {
+        let addToMapFunc = function (inMarker) {
             L.marker(inMarker.getLatLon()).addTo(this.map);
         }.bind(this);
 
@@ -58,37 +57,41 @@ class markerController {
 
 }
 
-var markerList = [[51.5, -0.0905], [51.53, -0.09]];
+function main() {
+    // var markerList = [[51.5, -0.0905], [51.53, -0.09]];
 
-var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
 
-var markerControllerInstance = new markerController(mymap);
-markerControllerInstance.importPhotoData(function () {
-    markerControllerInstance.populateMapWithMarkers();
- });
+    var markerControllerInstance = new markerController(mymap);
+    markerControllerInstance.importPhotoData(function () {
+        markerControllerInstance.populateMapWithMarkers();
+    });
 
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    id: 'mapbox.streets'
-}).addTo(mymap);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        id: 'mapbox.streets'
+    }).addTo(mymap);
 
 
-markerList.forEach(function (marker, index) {
-    L.marker(marker).addTo(mymap).bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
-    console.log("Added", marker);
-});
+    // markerList.forEach(function (marker, index) {
+    //     L.marker(marker).addTo(mymap).bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+    //     console.log("Added", marker);
+    // });
 
-L.circle([51.508, -0.11], 500, {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.5
-}).addTo(mymap).bindPopup("I am a circle.");
+    $('#multi').mdbRange({
+        single: {
+            active: true,
+            multi: {
+                active: true,
+                rangeLength: 1
+            },
+        }
+    });
+}
 
-L.polygon([
-    [51.509, -0.08],
-    [51.503, -0.06],
-    [51.51, -0.047]
-]).addTo(mymap).bindPopup("I am a polygon.");
+main();
+
+

@@ -1,0 +1,13 @@
+ /* Set the size of the div element that contains the map */
+ #mapid {
+    height: 100%;
+    /* The height is 400 pixels */
+    width: 100%;
+    /* The width is the width of the web page */
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0px;
+}
