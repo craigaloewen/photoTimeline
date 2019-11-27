@@ -66,17 +66,36 @@ class markerController {
 minDateSlider = $("#min-date-slider");
 maxDateSlider = $("#max-date-slider");
 
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
 function setUpMinDateSlider(minVal, maxVal, val) {
 
     minDateSlider[0].max = maxVal;
     minDateSlider[0].min = minVal;
     minDateSlider.val(val);
     var children = minDateSlider[0].parentNode.childNodes[1].childNodes;
-    var value = ((val-minVal)/(maxVal-minVal) * 100);
+    var value = ((val - minVal) / (maxVal - minVal) * 100);
     children[1].style.width = value + '%';
     children[5].style.left = value + '%';
     children[7].style.left = value + '%'; children[11].style.left = value + '%';
-    children[11].childNodes[1].innerHTML = val;
+
+    let dateValue = new Date(val);
+
+    console.log("First date value: ", typeof (val));
+
+    children[11].childNodes[1].innerHTML = formatDate(dateValue);
 
 }
 
@@ -86,18 +105,28 @@ function setUpMaxDateSlider(minVal, maxVal, val) {
     maxDateSlider[0].min = minVal;
     maxDateSlider.val(val);
     var children = maxDateSlider[0].parentNode.childNodes[1].childNodes;
-    var value = ((val-minVal)/(maxVal-minVal) * 100);
+    var value = ((val - minVal) / (maxVal - minVal) * 100);
     children[3].style.width = (100 - value) + '%';
     children[5].style.right = (100 - value) + '%';
     children[9].style.left = value + '%'; children[13].style.left = value + '%';
-    children[13].childNodes[1].innerHTML = val;
+
+    let dateValue = new Date(val);
+
+
+    children[13].childNodes[1].innerHTML = dateValue.getDay() + " " + dateValue.getMonth() + " " + dateValue.getFullYear();
 
 }
 
 function setUpSliders() {
 
-    let minVal = 20;
-    let maxVal = 23;
+    let minValDate = new Date("2019-01-01");
+    let maxValDate = new Date("2019-02-01");
+
+    let minValInt = minValDate.getTime();
+    let maxValInt = maxValDate.getTime();
+
+    let minVal = minValInt;
+    let maxVal = maxValInt;
 
     setUpMinDateSlider(minVal, maxVal, minVal);
     setUpMaxDateSlider(minVal, maxVal, maxVal);
