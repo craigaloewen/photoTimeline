@@ -93,8 +93,6 @@ function setUpMinDateSlider(minVal, maxVal, val) {
 
     let dateValue = new Date(val);
 
-    console.log("First date value: ", typeof (val));
-
     children[11].childNodes[1].innerHTML = formatDate(dateValue);
 
 }
@@ -112,8 +110,7 @@ function setUpMaxDateSlider(minVal, maxVal, val) {
 
     let dateValue = new Date(val);
 
-
-    children[13].childNodes[1].innerHTML = dateValue.getDay() + " " + dateValue.getMonth() + " " + dateValue.getFullYear();
+    children[13].childNodes[1].innerHTML = formatDate(dateValue);;
 
 }
 

@@ -5,7 +5,7 @@
     height: 14px;
     border-radius: 10px;
     text-align: left;
-    margin: 45px 0 10px 0;
+    margin: 45px 20px 10px 20px;
   }
   
   [slider] > div {
@@ -133,6 +133,7 @@
   div[slider] > input[type=range]::-ms-tooltip {
     display: none;
   }
+
   
   [slider] > div > [sign] {
     opacity: 0;
@@ -173,6 +174,15 @@
   
   [slider]:hover > div > [sign] {
     opacity: 1;
+  }
+
+  
+  .signRight {
+    margin-left: -83px !important;
+  }
+
+  .signRight:after {
+    left: 72px !important;
   }
 
   .slider-container {
