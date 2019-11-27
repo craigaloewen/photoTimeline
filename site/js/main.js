@@ -55,6 +55,53 @@ class markerController {
         return mapBoundsArray;
     }
 
+    getMinMaxDates() {
+        return (100, 200);
+    }
+
+}
+
+// Set up our global variables 😭
+
+minDateSlider = $("#min-date-slider");
+maxDateSlider = $("#max-date-slider");
+
+function setUpMinDateSlider(minVal, maxVal, val) {
+
+    minDateSlider[0].max = maxVal;
+    minDateSlider[0].min = minVal;
+    minDateSlider.val(val);
+    var children = minDateSlider[0].parentNode.childNodes[1].childNodes;
+    var value = ((val-minVal)/(maxVal-minVal) * 100);
+    children[1].style.width = value + '%';
+    children[5].style.left = value + '%';
+    children[7].style.left = value + '%'; children[11].style.left = value + '%';
+    children[11].childNodes[1].innerHTML = val;
+
+}
+
+function setUpMaxDateSlider(minVal, maxVal, val) {
+
+    maxDateSlider[0].max = maxVal;
+    maxDateSlider[0].min = minVal;
+    maxDateSlider.val(val);
+    var children = maxDateSlider[0].parentNode.childNodes[1].childNodes;
+    var value = ((val-minVal)/(maxVal-minVal) * 100);
+    children[3].style.width = (100 - value) + '%';
+    children[5].style.right = (100 - value) + '%';
+    children[9].style.left = value + '%'; children[13].style.left = value + '%';
+    children[13].childNodes[1].innerHTML = val;
+
+}
+
+function setUpSliders() {
+
+    let minVal = 20;
+    let maxVal = 23;
+
+    setUpMinDateSlider(minVal, maxVal, minVal);
+    setUpMaxDateSlider(minVal, maxVal, maxVal);
+
 }
 
 function main() {
@@ -81,15 +128,7 @@ function main() {
     //     console.log("Added", marker);
     // });
 
-    $('#multi').mdbRange({
-        single: {
-            active: true,
-            multi: {
-                active: true,
-                rangeLength: 1
-            },
-        }
-    });
+    setUpSliders();
 }
 
 main();
