@@ -1,3 +1,9 @@
+function showModal() {
+    $('#myModalLabel')[0].innerHTML=this.name;
+    // $('#myModalBody')[0].innerHTML="<h1>Hello!</h1>";
+    $('#myModal').modal('show');
+}
+
 class customMarker {
     constructor(inName, inLat, inLon) {
         this.name = inName;
@@ -37,7 +43,9 @@ class markerController {
 
     populateMapWithMarkers() {
         let addToMapFunc = function (inMarker) {
-            L.marker(inMarker.getLatLon()).addTo(this.map);
+            L.marker(inMarker.getLatLon())
+                .on('click', showModal.bind(inMarker))
+                .addTo(this.map);
         }.bind(this);
 
         this.markerList.forEach(addToMapFunc);
@@ -155,6 +163,8 @@ function main() {
     // });
 
     setUpSliders();
+
+
 }
 
 main();
