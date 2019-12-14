@@ -49,6 +49,7 @@ class markerController {
         this.map = inputMap;
         console.log("Created map");
         this.markerList = [];
+        this.masterMarkerList = [];
         this.inputMaxDate = 0;
         this.inputMinDate = 0;
         this.layerGroup = L.layerGroup().addTo(this.map);
@@ -60,18 +61,34 @@ class markerController {
             for (let i = 0; i < keyList.length; i++) {
                 let markerName = keyList[i];
                 let inputDate = new Date(json[markerName]['DateTime']);
-                let newMarker = new customMarker(markerName, json[markerName]['LatLon'][0], json[markerName]['LatLon'][1], 
+                let newMarker = new customMarker(markerName, json[markerName]['LatLon'][0], json[markerName]['LatLon'][1],
                     inputDate);
+                this.masterMarkerList.push(newMarker);
                 this.markerList.push(newMarker);
             }
+            this.setInputDatesToShowAllMarkers();
+            this.applyDateFilter();
             callback();
         }.bind(this);
 
         $.getJSON("./img/imgGPSData.json", afterLoadFunction);
     }
 
+    setInputDatesToShowAllMarkers() {
+        let minMaxDates = this.getMinMaxDatesWithPadding();
+        this.inputMinDate = minMaxDates[0]
+        this.inputMaxDate = minMaxDates[1]
+    }
+
     clearMapMarkers() {
         this.layerGroup.clearLayers();
+    }
+
+    applyDateFilter() {
+        let minDate = this.inputMinDate;
+        let maxDate = this.inputMaxDate;
+        this.markerList = this.masterMarkerList.filter(marker => marker.date > minDate
+            && marker.date < maxDate);
     }
 
     populateMapWithMarkers() {
@@ -89,7 +106,9 @@ class markerController {
 
         this.markerList.forEach(addToMapFunc);
 
-        this.map.fitBounds(this.getMapBoundsArray());
+        if (this.markerList.length > 0) {
+            this.map.fitBounds(this.getMapBoundsArray());
+        }
     }
 
     getMapBoundsArray() {
@@ -103,7 +122,17 @@ class markerController {
     }
 
     getMinMaxDates() {
-        return (100, 200);
+        var maxDate = new Date(Math.max.apply(null, this.markerList.map(function (marker) { return marker.date; })));
+        var minDate = new Date(Math.min.apply(null, this.markerList.map(function (marker) { return marker.date; })));
+        console.log(minDate, maxDate);
+        return [minDate, maxDate];
+    }
+
+    getMinMaxDatesWithPadding() {
+        let minMaxDates = this.getMinMaxDates();
+        let minDate = new Date(minMaxDates[0].setDate(minMaxDates[0].getDate() - 1));
+        let maxDate = new Date(minMaxDates[1].setDate(minMaxDates[1].getDate() + 1));
+        return [minDate, maxDate];
     }
 
 }
@@ -118,6 +147,8 @@ var mymap = L.map('mapid').setView([51.505, -0.09], 13);
 var markerControllerInstance = new markerController(mymap);
 markerControllerInstance.importPhotoData(function () {
     markerControllerInstance.populateMapWithMarkers();
+    markerControllerInstance.getMinMaxDates();
+    setUpSliders();
 });
 
 function formatDate(date) {
@@ -170,8 +201,10 @@ function setUpMaxDateSlider(minVal, maxVal, val) {
 
 function setUpSliders() {
 
-    let minValDate = new Date("2019-01-01");
-    let maxValDate = new Date("2019-02-01");
+    let minMaxDates = markerControllerInstance.getMinMaxDatesWithPadding();
+
+    let minValDate = minMaxDates[0];
+    let maxValDate = minMaxDates[1];
 
     let minValInt = minValDate.getTime();
     let maxValInt = maxValDate.getTime();
@@ -188,12 +221,15 @@ function onMinSliderChange(dateValue) {
     console.log("Min Changing slider!", dateValue);
     markerControllerInstance.inputMinDate = dateValue;
     markerControllerInstance.clearMapMarkers();
+    markerControllerInstance.applyDateFilter();
+    markerControllerInstance.populateMapWithMarkers();
 }
 
 function onMaxSliderChange(dateValue) {
     console.log("Max Changing slider!", dateValue);
     markerControllerInstance.inputMaxDate = dateValue;
     markerControllerInstance.clearMapMarkers();
+    markerControllerInstance.applyDateFilter();
     markerControllerInstance.populateMapWithMarkers();
 }
 
@@ -216,7 +252,6 @@ function main() {
     //     console.log("Added", marker);
     // });
 
-    setUpSliders();
 
 
 }
