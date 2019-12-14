@@ -1,4 +1,21 @@
 function showModal() {
+
+    let modalParent = $('#myModalBody');
+
+    let boxHeight = $(window).height();
+    let boxWidth = $(window).width();
+
+    let fillClass = !(boxHeight > boxWidth) 
+    ? 'fill-height'
+    : 'fill-width';
+
+    // console.log("H: ",boxHeight,"W: ",boxWidth);
+    // console.log(fillClass);
+
+    $('#myModalImg').removeClass('fill-height');
+    $('#myModalImg').removeClass('fill-width');
+    $('#myModalImg').addClass(fillClass);
+
     $('#myModalLabel')[0].innerHTML=this.name;
     // $('#myModalBody')[0].innerHTML="<h1>Hello!</h1>";
     $('#myModal').modal('show');
