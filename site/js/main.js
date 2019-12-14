@@ -1,4 +1,4 @@
-function showModal() {
+function showModal(inMarker) {
 
     let modalParent = $('#myModalBody');
 
@@ -9,16 +9,22 @@ function showModal() {
     ? 'fill-height'
     : 'fill-width';
 
+    let modalImg = $('#myModalImg');
+    let modalLabel = $('#myModalLabel');
+    let modal = $('#myModal');
+
     // console.log("H: ",boxHeight,"W: ",boxWidth);
     // console.log(fillClass);
 
-    $('#myModalImg').removeClass('fill-height');
-    $('#myModalImg').removeClass('fill-width');
-    $('#myModalImg').addClass(fillClass);
+    console.log(inMarker);
 
-    $('#myModalLabel')[0].innerHTML=this.name;
-    // $('#myModalBody')[0].innerHTML="<h1>Hello!</h1>";
-    $('#myModal').modal('show');
+    modalImg.removeClass('fill-height');
+    modalImg.removeClass('fill-width');
+    modalImg.addClass(fillClass);
+
+    modalLabel[0].innerHTML=inMarker.name;
+    modalImg.attr("src","/img/" + inMarker.name)
+    modal.modal('show');
 }
 
 class customMarker {
@@ -59,9 +65,15 @@ class markerController {
     }
 
     populateMapWithMarkers() {
+
         let addToMapFunc = function (inMarker) {
+
+            let markerFunction = function() {
+                showModal(inMarker);
+            };
+
             L.marker(inMarker.getLatLon())
-                .on('click', showModal.bind(inMarker))
+                .on('click', markerFunction)
                 .addTo(this.map);
         }.bind(this);
 
