@@ -47,7 +47,8 @@
         children[5].style.left=value+'%';
         children[7].style.left=value+'%';children[11].style.left=value+'%';
         let dateValue = new Date(Number(thisValueStore));
-        children[11].childNodes[1].innerHTML=formatDate(dateValue);" />
+        children[11].childNodes[1].innerHTML=formatDate(dateValue);
+        onMinSliderChange(dateValue);" />
 
             <input id="max-date-slider" type="range" tabindex="0" value="60" max="100" min="0" step="1" oninput="
         this.value=Math.max(this.value,this.parentNode.childNodes[3].value-(-1));
@@ -58,7 +59,8 @@
         children[5].style.right=(100-value)+'%';
         children[9].style.left=value+'%';children[13].style.left=value+'%';
         let dateValue = new Date(Number(thisValueStore));
-        children[13].childNodes[1].innerHTML=formatDate(dateValue);" />
+        children[13].childNodes[1].innerHTML=formatDate(dateValue);
+        onMaxSliderChange(dateValue);" />
         </div>
     </div>
 
@@ -73,7 +75,7 @@
                     </button>
                 </div>
                 <div class="modal-body" id="myModalBody" style="text-align:center;">
-                    <img src='/img/DSCN0027.jpg' id="myModalImg" class='img-responsive fill-width'>
+                    <img src='/img/mapImages/DSCN0027.jpg' id="myModalImg" class='img-responsive fill-width'>
                 </div>
                 <div class="modal-footer">
                     <div style="text-align:center; width:100%;">

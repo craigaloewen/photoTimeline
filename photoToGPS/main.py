@@ -13,9 +13,9 @@ def EXIFDegToDecimalGPS(inputRatioValues):
 
 imageFiles=dict()
 
-for img_name in os.listdir('../site/img'):
+for img_name in os.listdir('../site/img/mapImages'):
 
-    img=open('../site/img/' + img_name, 'rb')
+    img=open('../site/img/mapImages/' + img_name, 'rb')
 
     tags=exifread.process_file(img)
 
@@ -23,10 +23,13 @@ for img_name in os.listdir('../site/img'):
 
     longitudeValues = tags['GPS GPSLongitude'].values
     latitudeValues = tags['GPS GPSLatitude'].values
+    DateValue = tags['Image DateTime'].printable
+    DateValue = DateValue.replace(':','/',2)
 
     LatLonArray = [EXIFDegToDecimalGPS(latitudeValues),EXIFDegToDecimalGPS(longitudeValues)]
 
     imageFiles[img_name]['LatLon'] = LatLonArray
+    imageFiles[img_name]['DateTime'] = DateValue
 
 
 with open('../site/img/imgGPSData.json', 'w') as json_file:

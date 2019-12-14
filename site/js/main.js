@@ -5,9 +5,9 @@ function showModal(inMarker) {
     let boxHeight = $(window).height();
     let boxWidth = $(window).width();
 
-    let fillClass = !(boxHeight > boxWidth) 
-    ? 'fill-height'
-    : 'fill-width';
+    let fillClass = !(boxHeight > boxWidth)
+        ? 'fill-height'
+        : 'fill-width';
 
     let modalImg = $('#myModalImg');
     let modalLabel = $('#myModalLabel');
@@ -22,16 +22,17 @@ function showModal(inMarker) {
     modalImg.removeClass('fill-width');
     modalImg.addClass(fillClass);
 
-    modalLabel[0].innerHTML=inMarker.name;
-    modalImg.attr("src","/img/" + inMarker.name)
+    modalLabel[0].innerHTML = inMarker.name;
+    modalImg.attr("src", "/img/mapImages/" + inMarker.name)
     modal.modal('show');
 }
 
 class customMarker {
-    constructor(inName, inLat, inLon) {
+    constructor(inName, inLat, inLon, inDate) {
         this.name = inName;
         this.lat = inLat;
         this.lon = inLon;
+        this.date = inDate;
     }
 
     getName() {
@@ -48,6 +49,9 @@ class markerController {
         this.map = inputMap;
         console.log("Created map");
         this.markerList = [];
+        this.inputMaxDate = 0;
+        this.inputMinDate = 0;
+        this.layerGroup = L.layerGroup().addTo(this.map);
     }
 
     importPhotoData(callback) {
@@ -55,7 +59,9 @@ class markerController {
             let keyList = Object.keys(json);
             for (let i = 0; i < keyList.length; i++) {
                 let markerName = keyList[i];
-                let newMarker = new customMarker(markerName, json[markerName]['LatLon'][0], json[markerName]['LatLon'][1]);
+                let inputDate = new Date(json[markerName]['DateTime']);
+                let newMarker = new customMarker(markerName, json[markerName]['LatLon'][0], json[markerName]['LatLon'][1], 
+                    inputDate);
                 this.markerList.push(newMarker);
             }
             callback();
@@ -64,17 +70,21 @@ class markerController {
         $.getJSON("./img/imgGPSData.json", afterLoadFunction);
     }
 
+    clearMapMarkers() {
+        this.layerGroup.clearLayers();
+    }
+
     populateMapWithMarkers() {
 
         let addToMapFunc = function (inMarker) {
 
-            let markerFunction = function() {
+            let markerFunction = function () {
                 showModal(inMarker);
             };
 
             L.marker(inMarker.getLatLon())
                 .on('click', markerFunction)
-                .addTo(this.map);
+                .addTo(this.layerGroup);
         }.bind(this);
 
         this.markerList.forEach(addToMapFunc);
@@ -102,6 +112,13 @@ class markerController {
 
 minDateSlider = $("#min-date-slider");
 maxDateSlider = $("#max-date-slider");
+
+var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+
+var markerControllerInstance = new markerController(mymap);
+markerControllerInstance.importPhotoData(function () {
+    markerControllerInstance.populateMapWithMarkers();
+});
 
 function formatDate(date) {
     var d = new Date(date),
@@ -167,15 +184,21 @@ function setUpSliders() {
 
 }
 
+function onMinSliderChange(dateValue) {
+    console.log("Min Changing slider!", dateValue);
+    markerControllerInstance.inputMinDate = dateValue;
+    markerControllerInstance.clearMapMarkers();
+}
+
+function onMaxSliderChange(dateValue) {
+    console.log("Max Changing slider!", dateValue);
+    markerControllerInstance.inputMaxDate = dateValue;
+    markerControllerInstance.clearMapMarkers();
+    markerControllerInstance.populateMapWithMarkers();
+}
+
 function main() {
     // var markerList = [[51.5, -0.0905], [51.53, -0.09]];
-
-    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
-
-    var markerControllerInstance = new markerController(mymap);
-    markerControllerInstance.importPhotoData(function () {
-        markerControllerInstance.populateMapWithMarkers();
-    });
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         maxZoom: 18,
@@ -184,6 +207,8 @@ function main() {
             'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         id: 'mapbox.streets'
     }).addTo(mymap);
+
+
 
 
     // markerList.forEach(function (marker, index) {
