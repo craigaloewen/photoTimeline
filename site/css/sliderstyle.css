@@ -176,6 +176,14 @@
     opacity: 1;
   }
 
+  .signLeft {
+    top: -65px !important;
+  }
+
+  .signLeft:after {
+    border-top-width: 38px !important;
+    top: 18px !important;
+  }
   
   .signRight {
     margin-left: -83px !important;

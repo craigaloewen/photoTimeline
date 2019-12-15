@@ -1,13 +1,19 @@
+function formatThisDate(date) {
+    var monthNames = [
+      "January", "February", "March",
+      "April", "May", "June", "July",
+      "August", "September", "October",
+      "November", "December"
+    ];
+  
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+  
+    return  monthNames[monthIndex] + ' ' + day + ' ' + year;
+  }
+
 function showModal(inMarker) {
-
-    let modalParent = $('#myModalBody');
-
-    let boxHeight = $(window).height();
-    let boxWidth = $(window).width();
-
-    let fillClass = !(boxHeight > boxWidth)
-        ? 'fill-height'
-        : 'fill-width';
 
     let modalImg = $('#myModalImg');
     let modalLabel = $('#myModalLabel');
@@ -18,7 +24,7 @@ function showModal(inMarker) {
 
     console.log(inMarker);
 
-    modalLabel[0].innerHTML = inMarker.name;
+    modalLabel[0].innerHTML = formatThisDate(inMarker.date);
     // modalImg.attr("src", "/img/mapImages/" + inMarker.name)
     modalImg.css('background-image', "url('/img/mapImages/" + inMarker.name + "')");
     modal.modal('show');
