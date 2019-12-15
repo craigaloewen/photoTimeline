@@ -2,6 +2,7 @@
 <html>
 
 <head>
+        <meta charset="UTF-8">
 
     <link rel="stylesheet" type="text/css" href="./css/stylesheet.css">
     <link rel="stylesheet" type="text/css" href="./css/sliderstyle.css">
@@ -87,11 +88,38 @@
         </div>
     </div>
 
+    <!-- Welcome Modal -->
+    <div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body" id="welcomeModalBody" style="text-align:center;">
+                    <h1>Welcome to photo timeline!</h1>
+                    <h3>Wherever we go</h3>
+                    <h3>✈</h3>
+                    <h3>I'm always happiest with you</h3>
+                    <h5>This was a gift created for Eleanor Kuan's 24th birthday on December 24th 2019.</h5>
+                    <h5>This shows every photo of Craig and Eleanor together from the day they started dating (go find that one in Toronto!)</h5>
+                    <h5>The bar on the bottom will filter the photos by date, and to view a photo all you need to do is click on it.</h5>
+                    <h5>Enjoy!</h5>
+                </div>
+                <div class="modal-footer">
+                    <div style="text-align:center; width:100%;">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+    <script>
+    $('#welcomeModal').modal('show');
+    </script>
+
     <script src="js/main.js"></script>
 
 </body>
