@@ -35,6 +35,18 @@ body {
   height: 100%;
 }
 
+.modal-body {
+  width: 100%;
+}
+
+.my-modal-image {
+    background-image:url('/img/mapImages/IMG_20170703_152653.jpg');
+    background-repeat:no-repeat;
+    background-size:contain;
+    width: 100%;
+    height: 100%;
+}
+
 .fill-width { 
   width: 100%; 
   height: auto; 

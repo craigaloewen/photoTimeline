@@ -18,12 +18,9 @@ function showModal(inMarker) {
 
     console.log(inMarker);
 
-    modalImg.removeClass('fill-height');
-    modalImg.removeClass('fill-width');
-    modalImg.addClass(fillClass);
-
     modalLabel[0].innerHTML = inMarker.name;
-    modalImg.attr("src", "/img/mapImages/" + inMarker.name)
+    // modalImg.attr("src", "/img/mapImages/" + inMarker.name)
+    modalImg.css('background-image', "url('/img/mapImages/" + inMarker.name + "')");
     modal.modal('show');
 }
 
